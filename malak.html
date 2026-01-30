@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>I ♥ U Animation</title>
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      background: radial-gradient(circle at center, #1a001a, #000);
+      color: #ff80c0;
+      font-family: "Poppins", sans-serif;
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      overflow: hidden;
+    }
+
+    .wrapper {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      z-index: 2;
+      transition: opacity 1s ease;
+    }
+
+    .wrapper.hide {
+      opacity: 0;
+    }
+
+    .bar {
+      width: 3px;
+      height: 60px;
+      background: linear-gradient(180deg, #ff69b4, #ffb6c1);
+      box-shadow: 0 0 10px #ff69b4, 0 0 20px #ff69b4;
+      border-radius: 2px;
+    }
+
+    .text {
+      display: inline-block;
+      overflow: hidden;
+      white-space: nowrap;
+      font-size: 2rem;
+      letter-spacing: 8px;
+      margin: 0 6px;
+      background: linear-gradient(90deg, #ffb6c1, #ff69b4, #ff80c0);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      transition: letter-spacing 0.6s ease-in-out, transform 0.4s ease, opacity 0.4s ease;
+      position: relative;
+      z-index: 3;
+    }
+
+    .jump {
+      animation: jump 0.4s ease;
+    }
+
+    @keyframes jump {
+      0%   { transform: translateY(0); opacity: 1; }
+      30%  { transform: translateY(-12px); opacity: 0.7; }
+      60%  { transform: translateY(4px); opacity: 0.9; }
+      100% { transform: translateY(0); opacity: 1; }
+    }
+
+    /* القلب */
+    .heart {
+      position: absolute;
+      font-size: 5rem;
+      color: #ff4da6;
+      text-shadow: 0 0 20px #ff1a75, 0 0 40px #ff4da6;
+      opacity: 0;
+      transform: scale(0);
+      transition: transform 3s ease, opacity 1s ease;
+      z-index: 1;
+      top: 50%;
+      left: 50%;
+      transform-origin: center center;
+      translate: -50% -50%;
+    }
+
+    .heart.show {
+      opacity: 1;
+      transform: scale(40);
+    }
+
+    /* الجملة الأخيرة */
+    .message {
+      position: absolute;
+      color: #fff0f6;
+      font-family: "Great Vibes", cursive;
+      font-size: 3rem;
+      text-align: center;
+      opacity: 0;
+      transition: opacity 2s ease;
+      z-index: 3;
+    }
+
+    .message.show {
+      opacity: 1;
+    }
+  </style>
+</head>
+<body>
+  <div class="wrapper">
+    <div class="bar left"></div>
+    <div class="text">i love you</div>
+    <div class="bar right"></div>
+  </div>
+
+  <div class="heart">❤</div>
+  <div class="message">Happy Birthday Malak 💖I LOVE UUUUUUUUU Don't leave me alone</div>
+
+  <script>
+    const wrapper = document.querySelector('.wrapper');
+    const text = document.querySelector('.text');
+    const heart = document.querySelector('.heart');
+    const message = document.querySelector('.message');
+    const words = ['i love you', 'i♥you', 'i❤︎U'];
+
+    let index = 0;
+    let closing = false;
+    let interval = setInterval(animate, 1400);
+
+    function animate() {
+      closing = !closing;
+
+      if (closing) {
+        text.style.letterSpacing = "0px";
+        setTimeout(() => {
+          index = (index + 1) % words.length;
+          text.textContent = words[index];
+          text.classList.add('jump');
+
+          setTimeout(() => {
+            text.classList.remove('jump');
+          }, 400);
+
+          // لما يوصل لآخر كلمة
+          if (words[index] === 'i❤︎U') {
+            clearInterval(interval);
+
+            // أخفي النص قبل القلب ما يبدأ يكبر
+            setTimeout(() => {
+              wrapper.classList.add('hide');
+            }, 400);
+
+            // بعد ما يختفي النص، خلي القلب يظهر ويكبر
+            setTimeout(() => {
+              heart.classList.add('show');
+            }, 1000);
+
+            // بعد ما القلب يملأ الشاشة، أظهر الجملة
+            setTimeout(() => {
+              message.classList.add('show');
+            }, 4200);
+          }
+        }, 400);
+      } else {
+        text.style.letterSpacing = "8px";
+      }
+    }
+  </script>
+</body>
+</html>
